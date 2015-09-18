@@ -5,39 +5,38 @@
 var Calculator = function (number) {
     this.number = number || 0;
     this.tracesActivated = false;
-    console.log("Calculator constructor");
 
     this.enableTraces = function() {
         this.tracesActivated = true;
         return this;
-    }
+    };
 
     this.disableTraces = function() {
         this.tracesActivated = false;
         return this;
-    }
+    };
 
     this.log = function(stringToLog) {
         if(this.tracesActivated == true) {
             console.log(stringToLog);
         }
         return this;
-    }
+    };
 
     this.reset = function() {
         this.number = 0;
         return this;
-    }
+    };
 
     this.set = function(number) {
         this.number = number;
         return this;
-    }
+    };
 
     this.getValue = function() {
         this.log("getValue " + this.number);
         return this.number;
-    }
+    };
 
     this.add = function(numberToAdd) {
         var tmpNumber = this.number;
@@ -83,27 +82,39 @@ var Calculator = function (number) {
     };
 
     this.factorial = function() {
-        this.number = _factorial(this.number);
+        if(isInt(this.number) == false) {
+            throw new NotImplementedException("Gamma function not implemented for this class.");
+        }
+        else if(this.number == 0) {
+            this.number = 1;
+        }
+        else {
+            this.number = _factorial(this.number);
+        }
+
         return this;
     };
 
     // this function is private
     isInt = function(n) {
         return n % 1 === 0;
-    }
+    };
 
-    // factorial taken from http://jsfiddle.net/glenn_antoine/fkCyJ/
+    // factorial inspired from http://jsfiddle.net/glenn_antoine/fkCyJ/
+    // modified to indicate that gamma function is not supported
     // this function is private
     _factorial = function(num) {
-        if(isInt(num) == false) {
-            return 0;
-        }
-        else if(num == 0) {
+        if(num == 0) {
             return 1;
         }
         else {
             return (num * _factorial(num - 1));
         }
+    };
+
+    function NotImplementedException(message) {
+        this.message = message;
+        this.name = "NotImplementedException";
     }
 };
 
